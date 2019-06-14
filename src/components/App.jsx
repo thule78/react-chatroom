@@ -3,28 +3,30 @@ import { ChatManager, TokenProvider } from '@pusher/chatkit-client'
 
 import { tokenUrl, instanceLocator } from '../config'
 import ChatForm from './ChatForm';
-import ChatMessage from './ChatMessage';
+import ChatMessageList from './ChatMessageList';
 import ChatChannel from './ChatChannel';
 import NewChannel from './NewChannel';
 
 class App extends Component {
+  state = {
+    messages: []
+  }
   componentDidMount(){
     const chatManager = new ChatManager({
-      instanceLocator: 'v1:us1:98503d45-efa0-4d8e-a2ae-e1d9f2d5c83c',
+      instanceLocator: instanceLocator ,
       userId: 'thule',
-      tokenProvider: new TokenProvider({ url: tokenUrl
-
-
-       })
+      tokenProvider: new TokenProvider({ url: tokenUrl })
     })
     chatManager.connect()
     .then(currentUser => {
       currentUser.subscribeToRoom({
-        roomId: "chatapp",
+        roomId: "23467251",
         messageLimit: 20,
         hooks: {
-          onNewMessage: message => {
-            console.log('message.text: ', message.text);
+          onMessage: message => {
+            this.setState({
+              messages:[...this.state.messages, message]
+            })
           }
         }
       })
@@ -35,7 +37,7 @@ class App extends Component {
     <div className="container">
       <h1>Hello Chat</h1>
       <ChatForm />
-      <ChatMessage />
+      <ChatMessageList messages={this.state.messages} />
       <ChatChannel />
       <NewChannel />
     </div>

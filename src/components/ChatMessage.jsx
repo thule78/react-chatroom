@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class ChatMessage extends Component{
-  render(){
-    return(
-        <div>
-          <h2>Chat Message here</h2>
-        </div>
-      )
-  }
+const ChatMessage = props =>{
+  return(
+      <div>
+        <div>{props.user}</div>
+        <div>{props.text}</div>
+      </div>
+    )
 }
 
 export default ChatMessage;
